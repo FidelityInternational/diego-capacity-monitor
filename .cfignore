@@ -1,0 +1,7 @@
+*_test.go
+*.coverprofile
+*.html
+*.md
+*.template
+*.sh
+*.jpg

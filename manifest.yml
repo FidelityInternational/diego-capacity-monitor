@@ -1,0 +1,7 @@
+---
+applications:
+- name: diego-capacity-monitor
+  memory: 20M
+  disk_quota: 50M
+  instances: 2
+  path: .
