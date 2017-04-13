@@ -134,7 +134,7 @@ var _ = Describe("Controller", func() {
 
 						It("reports healthy as false", func() {
 							Ω(mockRecorder.Code).To(Equal(417))
-							Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"I'm still initalising, please be patient!","details":[` +
+							Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"I'm still initialising, please be patient!","details":[` +
 								`{"index":"1","memory":1000,"low_memory":true}` +
 								`],"cellCount":1,"cellMemory":10000,"watermark":1,"requested_watermark":"1","totalFreeMemory":1000,"WatermarkMemoryPercent":0}`))
 						})

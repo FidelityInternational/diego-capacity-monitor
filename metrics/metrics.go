@@ -10,8 +10,8 @@ import (
 
 // MessageMetric - A struct of the firhose metrics we care about
 type MessageMetric struct {
-	Memory    float64 `json: "memory"`
-	Timestamp int64   `json: "timestamp"`
+	Memory    float64 `json:"memory"`
+	Timestamp int64   `json:"timestamp"`
 }
 
 // Metrics struct

@@ -45,7 +45,7 @@ func main() {
 
 	authToken, err := client.GetToken()
 	if err != nil {
-		fmt.Println("Error occured grabbing oauth token")
+		fmt.Println("Error occurred grabbing oauth token")
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
@@ -68,7 +68,7 @@ func main() {
 
 	firehoseSubscriptionID, err := newUUID()
 	if err != nil {
-		fmt.Println("Error occured generating subscription ID")
+		fmt.Println("Error occurred generating subscription ID")
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
@@ -102,7 +102,7 @@ func main() {
 
 		match, err := regexp.MatchString(".*diego_cell.*CapacityRemainingMemory.*", msg.String())
 		if err != nil {
-			fmt.Println("An error occured matching diego_cells, skipping to next message")
+			fmt.Println("An error occurred matching diego_cells, skipping to next message")
 			fmt.Println(err.Error())
 			continue
 		}

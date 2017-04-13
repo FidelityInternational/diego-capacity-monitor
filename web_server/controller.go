@@ -33,7 +33,7 @@ type cellReport struct {
 
 type report struct {
 	Healthy                bool         `json:"healthy"`
-	Message                string       `json:"message""`
+	Message                string       `json:"message"`
 	CellReports            []cellReport `json:"details,omitempty"`
 	CellCount              int          `json:"cellCount"`
 	CellMemory             float64      `json:"cellMemory"`
@@ -138,7 +138,7 @@ func (c *Controller) Index(w http.ResponseWriter, r *http.Request) {
 	report.Watermark = watermarkCellCount
 
 	if c.Metrics.RedisNotUsed() && time.Now().Before(c.StartTime.Add(1*time.Minute)) {
-		report.Message = "I'm still initalising, please be patient!"
+		report.Message = "I'm still initialising, please be patient!"
 		statusCode = http.StatusExpectationFailed
 	} else if cellCount == 0 {
 		report.Message = "I'm sorry Dave I can't show you any data"
