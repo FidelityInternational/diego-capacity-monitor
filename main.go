@@ -93,16 +93,16 @@ func main() {
 
 	for msg := range msgChan {
 		if cellMemory == 0 {
-			match, _ := regexp.MatchString(".*diego_cell.*CapacityTotalMemory.*", msg.String())
+			match, _ := regexp.MatchString(".*diego[_-]cell.*CapacityTotalMemory.*", msg.String())
 			if match {
 				cellMemory = msg.ValueMetric.GetValue()
 				fmt.Printf("Setting the max memory to %v\n", cellMemory)
 			}
 		}
 
-		match, err := regexp.MatchString(".*diego_cell.*CapacityRemainingMemory.*", msg.String())
+		match, err := regexp.MatchString(".*diego[_-]cell.*CapacityRemainingMemory.*", msg.String())
 		if err != nil {
-			fmt.Println("An error occurred matching diego_cells, skipping to next message")
+			fmt.Println("An error occurred matching diego cells, skipping to next message")
 			fmt.Println(err.Error())
 			continue
 		}
