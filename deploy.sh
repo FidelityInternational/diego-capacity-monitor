@@ -26,7 +26,7 @@ if [[ "$(cf app "${APP_NAME:-diego-capacity-monitor}") || true)" == *"FAILED"* ]
   cf start "${APP_NAME:-diego-capacity-monitor}"
 else
   echo "Zero downtime deploying..."
-  domain=$(cf app "${APP_NAME:-diego-capacity-monitor}" | grep urls | cut -d":" -f2 | xargs | cut -d"." -f 2-)
+  domain=$(cf app "${APP_NAME:-diego-capacity-monitor}" | grep -E 'urls|routes' | cut -d":" -f2 | xargs | cut -d"." -f 2-)
   cf push "${APP_NAME:-diego-capacity-monitor}-green" -f manifest.yml -n "${APP_NAME:-diego-capacity-monitor}-green" --no-start
   setEnvs "${APP_NAME:-diego-capacity-monitor}-green"
   cf bind-service "${APP_NAME:-diego-capacity-monitor}-green" cache || true
