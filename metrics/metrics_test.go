@@ -151,7 +151,26 @@ var _ = Describe("#CreateMetrics", func() {
 		})
 	})
 
+	Context("when CF services does not exist", func() {
+		It("creates a Metics control object", func() {
+			metrics := metricsLib.CreateMetrics()
+			Ω(metrics).Should(BeAssignableToTypeOf(metricsLib.Metrics{}))
+			Ω(metrics.RedisClient).Should(BeNil())
+			Ω(metrics.MessageMetrics).ShouldNot(BeNil())
+		})
+	})
+
 	Context("When redis does not exist", func() {
+		JustBeforeEach(func() {
+			os.Setenv("VCAP_SERVICES", `{}`)
+			os.Setenv("VCAP_APPLICATION", "{}")
+		})
+
+		AfterEach(func() {
+			os.Unsetenv("VCAP_SERVICES")
+			os.Unsetenv("VCAP_APPLICATION")
+		})
+
 		It("creates a Metics control object", func() {
 			metrics := metricsLib.CreateMetrics()
 			Ω(metrics).Should(BeAssignableToTypeOf(metricsLib.Metrics{}))

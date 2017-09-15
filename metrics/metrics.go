@@ -110,10 +110,7 @@ func redisServiceAvailable() (cfenv.Service, bool) {
 		fmt.Println("Could not get service tags, assuming redis service does not exist")
 		return cfenv.Service{}, false
 	}
-	if len(redisServices) >= 1 {
-		return redisServices[0], true
-	}
-	return cfenv.Service{}, false
+	return redisServices[0], true
 }
 
 func createRedisClient(redisService cfenv.Service) (*redis.Client, error) {
