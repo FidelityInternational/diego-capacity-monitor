@@ -53,7 +53,8 @@ func CreateController(metrics metrics.Metrics, cellMemory *float64, watermark *s
 	}
 }
 
-func (c *Controller) watermarkMemoryPercent2dp(watermark int, cellCount int, cellMemory float64, totalFreeMemory float64) float64 {
+// WatermarkMemoryPercent2dp calculates watermark memory percent to 2 decimal places
+func WatermarkMemoryPercent2dp(watermark int, cellCount int, cellMemory float64, totalFreeMemory float64) float64 {
 	if cellCount > 0 {
 		watermarkSize := (float64(watermark) * cellMemory)
 		memoryExcludingWatermark := (float64(cellCount) * cellMemory) - watermarkSize
@@ -152,7 +153,7 @@ func (c *Controller) Index(w http.ResponseWriter, r *http.Request) {
 		report.Message = "At least a third of the cells are low on memory!"
 		statusCode = http.StatusExpectationFailed
 	} else {
-		WatermarkMemoryPercent := c.watermarkMemoryPercent2dp(watermarkCellCount, cellCount, *c.CellMemory, totalFreeMemory)
+		WatermarkMemoryPercent := WatermarkMemoryPercent2dp(watermarkCellCount, cellCount, *c.CellMemory, totalFreeMemory)
 		report.WatermarkMemoryPercent = WatermarkMemoryPercent
 
 		// Panic if we do not have enough headroom after watermark cells are discounted

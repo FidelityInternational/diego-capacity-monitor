@@ -82,8 +82,8 @@ var _ = Describe("Controller", func() {
 
 			It("reports healthy as false with a report message as an error", func() {
 				Ω(mockRecorder.Code).To(Equal(500))
-				Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"Error occurred while calculating cell count: ` +
-					`strconv.ParseInt: parsing \"invalid\": invalid syntax","cellCount":0,"cellMemory":10000,"watermark":0,` +
+				Ω(mockRecorder.Body.String()).Should(MatchRegexp(`{"healthy":false,"message":"Error occurred while calculating cell count: ` +
+					`strconv\..*: parsing \\"invalid\\": invalid syntax","cellCount":0,"cellMemory":10000,"watermark":0,` +
 					`"requested_watermark":"invalid","totalFreeMemory":0,"WatermarkMemoryPercent":0}`))
 			})
 		})
@@ -304,7 +304,8 @@ var _ = Describe("Controller", func() {
 				It("returns the specified watermark cell count value as an int", func() {
 					cellCount, err := controller.CalculateWatermarkCellCount(4)
 					Ω(cellCount).Should(Equal(0))
-					Ω(err).Should(MatchError(`strconv.ParseInt: parsing "invalid": invalid syntax`))
+					Ω(err).ShouldNot(BeNil())
+					Ω(err.Error()).Should(MatchRegexp(`strconv\..*: parsing "invalid": invalid syntax`))
 				})
 			})
 
@@ -332,7 +333,8 @@ var _ = Describe("Controller", func() {
 				It("returns the specified watermark cell count value as an int", func() {
 					cellCount, err := controller.CalculateWatermarkCellCount(4)
 					Ω(cellCount).Should(Equal(0))
-					Ω(err).Should(MatchError(`strconv.ParseInt: parsing "invalid": invalid syntax`))
+					Ω(err).ShouldNot(BeNil())
+					Ω(err.Error()).Should(MatchRegexp(`strconv\..*: parsing "invalid": invalid syntax`))
 				})
 			})
 
@@ -357,6 +359,46 @@ var _ = Describe("Controller", func() {
 					Ω(err).Should(BeNil())
 				})
 			})
+		})
+	})
+})
+
+var _ = Describe("#WatermarkMemoryPercent2dp", func() {
+	var (
+		percent   float64
+		cellCount int
+	)
+
+	JustBeforeEach(func() {
+		percent = webs.WatermarkMemoryPercent2dp(0, cellCount, 3, 1)
+	})
+
+	Context("when cellCount is 0", func() {
+		BeforeEach(func() {
+			cellCount = 0
+		})
+
+		It("returns 0", func() {
+			Ω(percent).Should(Equal(float64(0)))
+		})
+	})
+
+	Context("when cellCount is less than 0", func() {
+		BeforeEach(func() {
+			cellCount = -20
+		})
+		It("returns 0", func() {
+			Ω(percent).Should(Equal(float64(0)))
+		})
+	})
+
+	Context("when cellCount is greater than 0", func() {
+		BeforeEach(func() {
+			cellCount = 1
+		})
+
+		It("returns the percentage", func() {
+			Ω(percent).Should(Equal(33.33))
 		})
 	})
 })
