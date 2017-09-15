@@ -7,6 +7,8 @@ go:
 go_import_path: github.com/FidelityInternational/diego-capacity-monitor
 
 before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y redis-server
   - go get github.com/pierrre/gotestcover
   - go get golang.org/x/tools/cover
 
