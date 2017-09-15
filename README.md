@@ -51,7 +51,7 @@ The following error messages and status can also be received:
     - report.Message = "I'm sorry Dave I can't show you any data"
     - report.Healthy = false
     - status = http.StatusGone
-- The cellCount is not more than the watercount
+- The cellCount is not more than the watermark count
     - report.Message = "The number of cells needs to exceed the watermark amount!"
     - report.Healthy = false
     - status = http.StatusExpectationFailed
@@ -70,9 +70,18 @@ The following error messages and status can also be received:
 
 ### Deployment
 
-#### Watermark value:
+#### Watermark value
 
-This value can be supplied either as the number of cells to upgrade in parallel, or as a percentage.
+The watermark value is the number of Diego cells that will be excluded from the remaining capacity calculation, the intention is for this value to match the number of cells you would upgrade in parallel when performing a `bosh deploy`. Based on this theory the `WatermarkMemoryPercent` will show a percentage of spare load during an upgrade event, to ensure app migrations can happen in a timely manner between draining cells.
+
+This value can be supplied either as the number of cells to upgrade in parallel, or as a percentage. It has a default value of `1`.
+
+Example:
+
+If we had 50 Diego Cells
+
+`WATERMARK: 10%` - Watermark count = `5`
+`WATERMARK: 10` - Watermark count = `10`
 
 #### Manual deployment
 
