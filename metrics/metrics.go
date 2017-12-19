@@ -10,8 +10,8 @@ import (
 
 // MessageMetric - A struct of the firhose metrics we care about
 type MessageMetric struct {
-	Memory    float64 `json:"memory"`
-	Timestamp int64   `json:"timestamp"`
+	Memory    float64 `json: "memory"`
+	Timestamp int64   `json: "timestamp"`
 }
 
 // Metrics struct
@@ -110,7 +110,10 @@ func redisServiceAvailable() (cfenv.Service, bool) {
 		fmt.Println("Could not get service tags, assuming redis service does not exist")
 		return cfenv.Service{}, false
 	}
-	return redisServices[0], true
+	if len(redisServices) >= 1 {
+		return redisServices[0], true
+	}
+	return cfenv.Service{}, false
 }
 
 func createRedisClient(redisService cfenv.Service) (*redis.Client, error) {

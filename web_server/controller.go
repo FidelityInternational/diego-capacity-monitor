@@ -149,9 +149,6 @@ func (c *Controller) Index(w http.ResponseWriter, r *http.Request) {
 		report.Message = "The number of cells needs to exceed the watermark amount!"
 		statusCode = http.StatusExpectationFailed
 		// Panic if half or more of the cells are low on memory
-	} else if (float64(memLowCount) / float64(cellCount)) >= 0.33 {
-		report.Message = "At least a third of the cells are low on memory!"
-		statusCode = http.StatusExpectationFailed
 	} else {
 		WatermarkMemoryPercent := WatermarkMemoryPercent2dp(watermarkCellCount, cellCount, *c.CellMemory, totalFreeMemory)
 		report.WatermarkMemoryPercent = WatermarkMemoryPercent

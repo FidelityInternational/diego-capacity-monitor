@@ -55,10 +55,6 @@ The following error messages and status can also be received:
     - report.Message = "The number of cells needs to exceed the watermark amount!"
     - report.Healthy = false
     - status = http.StatusExpectationFailed
-- A third or more of the cells are under 2G memory free
-    - report.Message = "At least a third of the cells are low on memory!"
-    - report.Healthy = false
-    - status = http.StatusExpectationFailed
 - There is less memory free than the watermark amount
     - report.Message = "FATAL - There is not enough space to do an upgrade, add cells or reduce watermark!"
     - report.Healthy = false
@@ -126,6 +122,11 @@ go get github.com/onsi/gingko/ginkgo
 
 #### Test
 
+```
+./test.sh
+```
+
+### To check test coverage
 ```
 ginkgo -r -cover
 ```

@@ -82,8 +82,8 @@ var _ = Describe("Controller", func() {
 
 			It("reports healthy as false with a report message as an error", func() {
 				Ω(mockRecorder.Code).To(Equal(500))
-				Ω(mockRecorder.Body.String()).Should(MatchRegexp(`{"healthy":false,"message":"Error occurred while calculating cell count: ` +
-					`strconv\..*: parsing \\"invalid\\": invalid syntax","cellCount":0,"cellMemory":10000,"watermark":0,` +
+				Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"Error occurred while calculating cell count: ` +
+					`strconv.Atoi: parsing \"invalid\": invalid syntax","cellCount":0,"cellMemory":10000,"watermark":0,` +
 					`"requested_watermark":"invalid","totalFreeMemory":0,"WatermarkMemoryPercent":0}`))
 			})
 		})
@@ -137,46 +137,6 @@ var _ = Describe("Controller", func() {
 							Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"I'm still initialising, please be patient!","details":[` +
 								`{"index":"1","memory":1000,"low_memory":true}` +
 								`],"cellCount":1,"cellMemory":10000,"watermark":1,"requested_watermark":"1","totalFreeMemory":1000,"WatermarkMemoryPercent":0}`))
-						})
-					})
-
-					Context("and memory is below the threshold", func() {
-						Context("and memory is below the threshold on at at least half the cells", func() {
-							BeforeEach(func() {
-								metrics.Set("1", metricsLib.MessageMetric{Memory: 4000, Timestamp: timeNow})
-								metrics.Set("2", metricsLib.MessageMetric{Memory: 2000, Timestamp: timeNow})
-							})
-
-							It("reports healthy as false", func() {
-								Ω(mockRecorder.Code).To(Equal(417))
-								Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"At least a third of the cells are low on memory!","details":[` +
-									`{"index":"1","memory":4000,"low_memory":false},` +
-									`{"index":"2","memory":2000,"low_memory":true}` +
-									`],"cellCount":2,"cellMemory":10000,"watermark":1,"requested_watermark":"1","totalFreeMemory":6000,"WatermarkMemoryPercent":0}`))
-							})
-						})
-
-						Context("and memory is below the threshold on too many cells", func() {
-							BeforeEach(func() {
-								metrics.Set("1", metricsLib.MessageMetric{Memory: 4000, Timestamp: timeNow})
-								metrics.Set("2", metricsLib.MessageMetric{Memory: 4000, Timestamp: timeNow})
-								metrics.Set("3", metricsLib.MessageMetric{Memory: 4000, Timestamp: timeNow})
-								metrics.Set("4", metricsLib.MessageMetric{Memory: 4000, Timestamp: timeNow})
-								metrics.Set("5", metricsLib.MessageMetric{Memory: 2000, Timestamp: timeNow})
-								metrics.Set("6", metricsLib.MessageMetric{Memory: 2000, Timestamp: timeNow})
-							})
-
-							It("reports healthy as false", func() {
-								Ω(mockRecorder.Code).To(Equal(417))
-								Ω(mockRecorder.Body.String()).Should(Equal(`{"healthy":false,"message":"At least a third of the cells are low on memory!","details":[` +
-									`{"index":"1","memory":4000,"low_memory":false},` +
-									`{"index":"2","memory":4000,"low_memory":false},` +
-									`{"index":"3","memory":4000,"low_memory":false},` +
-									`{"index":"4","memory":4000,"low_memory":false},` +
-									`{"index":"5","memory":2000,"low_memory":true},` +
-									`{"index":"6","memory":2000,"low_memory":true}` +
-									`],"cellCount":6,"cellMemory":10000,"watermark":1,"requested_watermark":"1","totalFreeMemory":20000,"WatermarkMemoryPercent":0}`))
-							})
 						})
 					})
 
@@ -304,8 +264,7 @@ var _ = Describe("Controller", func() {
 				It("returns the specified watermark cell count value as an int", func() {
 					cellCount, err := controller.CalculateWatermarkCellCount(4)
 					Ω(cellCount).Should(Equal(0))
-					Ω(err).ShouldNot(BeNil())
-					Ω(err.Error()).Should(MatchRegexp(`strconv\..*: parsing "invalid": invalid syntax`))
+					Ω(err).Should(MatchError(`strconv.Atoi: parsing "invalid": invalid syntax`))
 				})
 			})
 
@@ -333,8 +292,7 @@ var _ = Describe("Controller", func() {
 				It("returns the specified watermark cell count value as an int", func() {
 					cellCount, err := controller.CalculateWatermarkCellCount(4)
 					Ω(cellCount).Should(Equal(0))
-					Ω(err).ShouldNot(BeNil())
-					Ω(err.Error()).Should(MatchRegexp(`strconv\..*: parsing "invalid": invalid syntax`))
+					Ω(err).Should(MatchError(`strconv.Atoi: parsing "invalid": invalid syntax`))
 				})
 			})
 
