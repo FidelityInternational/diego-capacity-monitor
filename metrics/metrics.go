@@ -23,7 +23,7 @@ type Metrics struct {
 
 // CreateMetrics - creates the "Metrics" control object
 func CreateMetrics() Metrics {
-	staleDuration := (5 * time.Minute)
+	staleDuration := (15 * time.Minute)
 	redisService, redisExists := redisServiceAvailable()
 	if redisExists {
 		redisClient, _ := createRedisClient(redisService)
