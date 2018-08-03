@@ -25,7 +25,7 @@
   version = "v1.17.0"
 
 [[projects]]
-  digest = "1:ef26f09dcbcb351f7f28fa219e45c306c445df45b22902c24896c1e43d06ee4d"
+  digest = "1:9148c060d019cb181efbabd6e5858e7727796d62d16f002f23addcf2cc374818"
   name = "github.com/cloudfoundry/noaa"
   packages = [
     ".",
@@ -34,7 +34,8 @@
     "errors",
   ]
   pruneopts = "UT"
-  revision = "23413d497570b44a2e3a24b1f6b3e23500b82e45"
+  revision = "a1d4a94e2be6711111893c59538976d07ef7ea98"
+  version = "v2.1.0"
 
 [[projects]]
   digest = "1:45e956070e508f7252c690dad697040439da23852ef35a244b4f3789dc952f38"
