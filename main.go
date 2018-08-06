@@ -40,8 +40,8 @@ func main() {
 		watermark = "1"
 	}
 
-	consumer := consumer.New(client.Endpoint.DopplerEndpoint, &tls.Config{InsecureSkipVerify: true}, nil)
-	consumer.SetDebugPrinter(consoleDebugPrinter{})
+	cnsmr := consumer.New(client.Endpoint.DopplerEndpoint, &tls.Config{InsecureSkipVerify: true}, nil)
+	cnsmr.SetDebugPrinter(consoleDebugPrinter{})
 
 	authToken, err := client.GetToken()
 	if err != nil {
@@ -73,7 +73,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	msgChan, errorChan := consumer.Firehose(firehoseSubscriptionID, authToken)
+	msgChan, errorChan := cnsmr.FilteredFirehose(firehoseSubscriptionID, authToken, consumer.Metrics)
 	go func() {
 		for err := range errorChan {
 			fmt.Fprintf(os.Stderr, "%v\n", err.Error())

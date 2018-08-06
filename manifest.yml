@@ -1,6 +1,6 @@
 ---
 applications:
-- name: diego-capacity-monitor
+- name: diego-capacity-godeps
   memory: 20M
   disk_quota: 50M
   instances: 2
