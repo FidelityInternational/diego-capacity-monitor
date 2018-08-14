@@ -275,7 +275,7 @@ func (c *cmdable) Ping() *StatusCmd {
 
 func (c *cmdable) Wait(numSlaves int, timeout time.Duration) *IntCmd {
 
-	cmd := NewIntCmd("wait", numSlaves, int(timeout/time.Second))
+	cmd := NewIntCmd("wait", numSlaves, int(timeout/time.Millisecond))
 	c.process(cmd)
 	return cmd
 }
@@ -734,6 +734,7 @@ func (c *cmdable) MSetNX(pairs ...interface{}) *BoolCmd {
 
 // Redis `SET key value [expiration]` command.
 //
+// Use expiration for `SETEX`-like behavior.
 // Zero expiration means the key has no expiration time.
 func (c *cmdable) Set(key string, value interface{}, expiration time.Duration) *StatusCmd {
 	args := make([]interface{}, 3, 4)
