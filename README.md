@@ -120,13 +120,7 @@ go get github.com/EverythingMe/disposable-redis
 go get github.com/onsi/gingko/ginkgo
 ```
 
-#### Test
-
-```
-./test.sh
-```
-
-### To check test coverage
+### To test and check coverage
 ```
 ginkgo -r -cover
 ```
