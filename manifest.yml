@@ -1,7 +1,9 @@
 ---
 applications:
-- name: diego-capacity-godeps
+- name: diego-capacity-monitor
   memory: 20M
   disk_quota: 50M
   instances: 2
   path: .
+  env:
+    GOPACKAGENAME: github.com/FidelityInternational/diego-capacity-monitor
