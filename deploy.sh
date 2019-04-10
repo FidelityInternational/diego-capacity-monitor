@@ -20,14 +20,14 @@ if [[ "$(cf service cache || true)" == *"FAILED"* ]] ; then
   cf create-service p-redis shared-vm cache || true
 fi
 if [[ "$(cf app "${APP_NAME:-diego-capacity-monitor}") || true)" == *"FAILED"* ]] ; then
-  cf push "${APP_NAME:-diego-capacity-monitor}" --no-start
+  cf push "${APP_NAME:-diego-capacity-monitor}" --no-start -s "${STACK:-cflinuxfs2}"
   setEnvs "${APP_NAME:-diego-capacity-monitor}"
   cf bind-service "${APP_NAME:-diego-capacity-monitor}" cache || true
   cf start "${APP_NAME:-diego-capacity-monitor}"
 else
   echo "Zero downtime deploying..."
   domain=$(cf app "${APP_NAME:-diego-capacity-monitor}" | grep -E 'urls|routes' | cut -d":" -f2 | xargs | cut -d"." -f 2-)
-  cf push "${APP_NAME:-diego-capacity-monitor}-green" -f manifest.yml -n "${APP_NAME:-diego-capacity-monitor}-green" --no-start
+  cf push "${APP_NAME:-diego-capacity-monitor}-green" -f manifest.yml -s "${STACK:-cflinuxfs2}" -n "${APP_NAME:-diego-capacity-monitor}-green" --no-start
   setEnvs "${APP_NAME:-diego-capacity-monitor}-green"
   cf bind-service "${APP_NAME:-diego-capacity-monitor}-green" cache || true
   cf start "${APP_NAME:-diego-capacity-monitor}-green"

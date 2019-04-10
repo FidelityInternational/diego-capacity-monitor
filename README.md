@@ -79,6 +79,10 @@ If we had 50 Diego Cells
 `WATERMARK: 10%` - Watermark count = `5`
 `WATERMARK: 10` - Watermark count = `10`
 
+#### cf cli version
+
+With the inclusion of stack support in the cf push you will need to be using v6.39.1 or newer of the cf cli.
+
 #### Manual deployment
 
 ```
@@ -103,12 +107,9 @@ CF_API_ENDPOINT=https://api.system.domain.cf \
 CF_USERNAME=cf_firehose_username \
 CF_PASSWORD=cf_firehose_password \
 APP_NAME=my_diego_capacity_monitoring_app \
+STACK=cflinuxfs2 \
 ./deploy.sh
 ```
-
-### Development
-
-Currently, this repo should be manually cloned into `$GOPATH/src/github.com/FidelityInternational/diego-capacity-monitor`as the Godeps.json file has FidelityInternational github.com import path set (which will be used when we open source this project).
 
 ### Testing
 
