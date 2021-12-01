@@ -4,6 +4,8 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/FidelityInternational/diego-capacity-monitor)](https://goreportcard.com/report/github.com/FidelityInternational/diego-capacity-monitor)
 [![Build Status](https://travis-ci.org/FidelityInternational/diego-capacity-monitor.svg?branch=master)](https://travis-ci.org/FidelityInternational/diego-capacity-monitor)
 
+NOTE: This is now deprecated and not being updated for security defects. It may be deleted at any time
+
 `diego-capacity-monitor` is a [Cloud Foundry](https://www.cloudfoundry.org) deployable web application that subscribes to the [CF Firehose](https://docs.cloudfoundry.org/loggregator/architecture.html#firehose) to gather memory metrics about Diego cells. It then reports health states based a number of key metrics described below.
 
 ![Diego Monitor](diego-monitor.jpg "Diego Monitor")
